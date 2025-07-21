@@ -5,14 +5,16 @@ from models.loan import Loan
 from utils.file_handler import read_users, write_users, read_books, write_books, read_loans, write_loans
 from utils.data_processor import calculate_average_rating, generate_loan_statistics
 from datetime import datetime
-#import os
+import os
 import json
 #import plotly.express as px
 import plotly.graph_objects as go
 import plotly.offline as pyo
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
-app.secret_key = ''
+app.secret_key = os.getenv("SK")
 
 
 users = read_users()
