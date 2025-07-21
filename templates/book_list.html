@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Your Borrowed Books</h2>
+    {% if borrowed_books %}
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse bg-white">
+            <thead>
+                <tr class="bg-indigo-100">
+                    <th class="border p-3 text-left">ID</th>
+                    <th class="border p-3 text-left">Title</th>
+                    <th class="border p-3 text-left">Author</th>
+                    <th class="border p-3 text-left">Rating</th>
+                    <th class="border p-3 text-left">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in borrowed_books %}
+                <tr class="hover:bg-gray-50">
+                    <td class="border p-3">{{ book.id }}</td>
+                    <td class="border p-3">{{ book.title }}</td>
+                    <td class="border p-3">{{ book.author }}</td>
+                    <td class="border p-3">{{ book.rating }}</td>
+                    <td class="border p-3">
+                        <a href="{{ url_for('return_book', book_id=book.id) }}" class="text-red-600 hover:text-red-800 font-medium">Return</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-gray-600">You have no borrowed books.</p>
+    {% endif %}
+
+    <h2 class="text-2xl font-semibold mt-8 mb-4 text-indigo-600">Available Books</h2>
+    {% if books %}
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse bg-white">
+            <thead>
+                <tr class="bg-indigo-100">
+                    <th class="border p-3 text-left">ID</th>
+                    <th class="border p-3 text-left">Title</th>
+                    <th class="border p-3 text-left">Author</th>
+                    <th class="border p-3 text-left">Copies</th>
+                    <th class="border p-3 text-left">Rating</th>
+                    <th class="border p-3 text-left">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr class="hover:bg-gray-50">
+                    <td class="border p-3">{{ book.id }}</td>
+                    <td class="border p-3">{{ book.title }}</td>
+                    <td class="border p-3">{{ book.author }}</td>
+                    <td class="border p-3">{{ book.copies }}</td>
+                    <td class="border p-3">{{ book.rating }}</td>
+                    <td class="border p-3">
+                        <a href="{{ url_for('loan_book', book_id=book.id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium">Borrow</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-gray-600">No books available.</p>
+    {% endif %}
+</div>
+{% endblock %}

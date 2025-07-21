@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Overdue Loans Report</h2>
+    {% if loans %}
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse bg-white">
+            <thead>
+                <tr class="bg-indigo-100">
+                    <th class="border p-3 text-left">Username</th>
+                    <th class="border p-3 text-left">Book ID</th>
+                    <th class="border p-3 text-left">Loan Date</th>
+                    <th class="border p-3 text-left">Days Overdue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                <tr class="hover:bg-gray-50">
+                    <td class="border p-3">{{ loan.username }}</td>
+                    <td class="border p-3">{{ loan.book_id }}</td>
+                    <td class="border p-3">{{ loan.loan_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td class="border p-3">{{ ((loan.loan_date - loan.loan_date).days + 14) if not loan.return_date else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-gray-600">No overdue loans found.</p>
+    {% endif %}
+    <p class="mt-4">
+        <a href="{{ url_for('librarian_dashboard') }}" class="text-indigo-600 hover:text-indigo-800 font-medium">Back to Dashboard</a>
+    </p>
+</div>
+{% endblock %}

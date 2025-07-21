@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+    <header class="bg-indigo-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Library Management System</h1>
+            <nav>
+                {% if session['role'] == 'librarian' %}
+                <a href="{{ url_for('librarian_dashboard') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Dashboard</a>
+                <a href="{{ url_for('add_book') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Add Book</a>
+                <a href="{{ url_for('overdue_report') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Overdue Report</a>
+                <a href="{{ url_for('statistics') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Statistics</a>
+                {% elif session['role'] == 'member' %}
+                <a href="{{ url_for('member_dashboard') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Dashboard</a>
+                {% endif %}
+                {% if session['username'] %}
+                <a href="{{ url_for('logout') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Login</a>
+                <a href="{{ url_for('register') }}" class="px-3 py-2 hover:bg-indigo-700 rounded">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 py-8">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

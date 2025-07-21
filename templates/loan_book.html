@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Borrow Book</h2>
+<p>Title: {{ book.title }}</p>
+<p>Author: {{ book.author }}</p>
+<form method="post">
+    <p><input type="submit" value="Confirm Borrow"></p>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-80px)]">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-semibold mb-6 text-indigo-600 text-center">Register</h2>
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+                <input type="text" id="username" name="username" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+                <input type="password" id="password" name="password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+            </div>
+            <div class="mb-6">
+                <label for="role" class="block text-gray-700 font-medium mb-2">Role</label>
+                <select id="role" name="role" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    <option value="member">Member</option>
+                    <option value="librarian">Librarian</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700 transition-colors">Register</button>
+        </form>
+        <p class="mt-4 text-center text-gray-600">
+            Already have an account? <a href="{{ url_for('login') }}" class="text-indigo-600 hover:text-indigo-800 font-medium">Login</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

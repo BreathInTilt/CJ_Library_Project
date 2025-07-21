@@ -1,0 +1,33 @@
+.plotly-graph-div {
+    width: 100% !important;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Smooth transitions for hover effects */
+a, button, input, select {
+    transition: all 0.2s ease;
+}
+
+/* Ensure tables are responsive */
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+
+/* Custom scrollbar for overflow tables */
+.overflow-x-auto::-webkit-scrollbar {
+    height: 8px;
+}
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background-color: #4b5e9e;
+    border-radius: 4px;
+}
+.overflow-x-auto::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
+}
+
+/* Ensure flash messages have consistent spacing */
+.bg-green-100 {
+    margin-bottom: 1.5rem;
+}
