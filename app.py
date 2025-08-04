@@ -10,11 +10,9 @@ import json
 #import plotly.express as px
 import plotly.graph_objects as go
 import plotly.offline as pyo
-from dotenv import load_dotenv
 
-load_dotenv()
 app = Flask(__name__)
-app.secret_key = os.getenv("SK")
+app.secret_key = "kapksdpakk2213"
 
 
 users = read_users()
