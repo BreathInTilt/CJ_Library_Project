@@ -31,3 +31,7 @@ table {
 .bg-green-100 {
     margin-bottom: 1.5rem;
 }
+/* Custom styles for search form */
+form .flex {
+    align-items: stretch;
+}

@@ -57,10 +57,16 @@ def register():
 def member_dashboard():
     if 'username' not in session or session['role'] != 'member':
         return redirect(url_for('login'))
-    available_books = [b for b in books if b.copies > 0]
+    # Get search query
+    search_query = request.args.get('search_query', '').strip().lower()
+    # Filter available books (copies > 0) by title or author
+    available_books = [
+        b for b in books if b.copies > 0 and
+        (search_query in b.title.lower() or search_query in b.author.lower() or not search_query)
+    ]
     user_loans = [l for l in loans if l.username == session['username'] and not l.return_date]
     borrowed_books = [next(b for b in books if b.id == l.book_id) for l in user_loans]
-    return render_template('book_list.html', books=available_books, borrowed_books=borrowed_books)
+    return render_template('book_list.html', books=available_books, borrowed_books=borrowed_books, search_query=search_query)
 
 @app.route('/librarian_dashboard')
 def librarian_dashboard():
