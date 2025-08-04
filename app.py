@@ -35,7 +35,7 @@ def login():
             if user.role == 'librarian':
                 return redirect(url_for('librarian_dashboard'))
             return redirect(url_for('member_dashboard'))
-        flash('Invalid credentials')
+        flash('Invalid credentials', "danger")
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -45,11 +45,11 @@ def register():
         password = request.form['password']
         role = request.form['role']
         if any(u.username == username for u in users):
-            flash('Username already exists')
+            flash('Username already exists', "danger")
         else:
             users.append(User(username, password, role))
             write_users(users)
-            flash('Registration successful')
+            flash('Registration successful', "success")
             return redirect(url_for('login'))
     return render_template('register.html')
 
@@ -70,7 +70,7 @@ def member_dashboard():
     for loan in user_loans:
         if loan.is_overdue() and not loan.warning_sent:
             book = next(b for b in books if b.id == loan.book_id)
-            flash(f"Warning: The book '{book.title}' is overdue (borrowed on {loan.loan_date.strftime('%Y-%m-%d')}). Please return it soon.")
+            flash(f"Warning: The book '{book.title}' is overdue (borrowed on {loan.loan_date.strftime('%Y-%m-%d')}). Please return it soon.", "danger")
     return render_template('book_list.html', books=available_books, borrowed_books=borrowed_books, search_query=search_query)
 
 @app.route('/librarian_dashboard')
@@ -85,14 +85,14 @@ def loan_book(book_id):
         return redirect(url_for('login'))
     book = next((b for b in books if b.id == book_id), None)
     if not book or book.copies <= 0:
-        flash('Book not available')
+        flash('Book not available', "warning")
         return redirect(url_for('member_dashboard'))
     if request.method == 'POST':
         loans.append(Loan(session['username'], book_id, datetime.now()))
         book.copies -= 1
         write_loans(loans)
         write_books(books)
-        flash('Book borrowed successfully')
+        flash('Book borrowed successfully', "success")
         return redirect(url_for('member_dashboard'))
     return render_template('loan_book.html', book=book)
 
@@ -107,7 +107,7 @@ def return_book(book_id):
         book.copies += 1
         write_loans(loans)
         write_books(books)
-        flash('Book returned successfully')
+        flash('Book returned successfully', "success")
     return redirect(url_for('member_dashboard'))
 
 @app.route('/add_book', methods=['GET', 'POST'])
@@ -122,7 +122,7 @@ def add_book():
         rating = float(request.form['rating'])
         books.append(Book(book_id, title, author, copies, rating))
         write_books(books)
-        flash('Book added successfully')
+        flash('Book added successfully', "success")
         return redirect(url_for('librarian_dashboard'))
     return render_template('add_book.html')
 
@@ -147,9 +147,9 @@ def send_warning(username, book_id):
         loan.warning_sent = True
         write_loans(loans)
         book = next(b for b in books if b.id == book_id)
-        flash(f"Warning sent to {username} for overdue book '{book.title}'")
+        flash(f"Warning sent to {username} for overdue book '{book.title}'", "success")
     else:
-        flash("Warning already sent or loan not found")
+        flash("Warning already sent or loan not found", "danger")
     return redirect(url_for('overdue_report'))
 
 @app.route('/statistics')
@@ -197,7 +197,7 @@ def statistics():
 @app.route('/logout')
 def logout():
     session.clear()
-    flash('You have been logged out')
+    flash('You have been logged out', "warning")
     return redirect(url_for('login'))
 
 if __name__ == '__main__':

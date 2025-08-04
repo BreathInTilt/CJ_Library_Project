@@ -43,9 +43,9 @@ form .flex {
     border-color: #d97706;
 }
 
-/* Custom styles for warning messages and buttons */
-.bg-yellow-100 {
+/* Красные flash-сообщения */
+.bg-red-100 {
     margin-bottom: 1.5rem;
     border-left-width: 4px;
-    border-color: #d97706;
+    border-color: #dc2626;   /* Tailwind red-600 */
 }
