@@ -66,6 +66,11 @@ def member_dashboard():
     ]
     user_loans = [l for l in loans if l.username == session['username'] and not l.return_date]
     borrowed_books = [next(b for b in books if b.id == l.book_id) for l in user_loans]
+    # Check for overdue loans and show warnings
+    for loan in user_loans:
+        if loan.is_overdue() and not loan.warning_sent:
+            book = next(b for b in books if b.id == loan.book_id)
+            flash(f"Warning: The book '{book.title}' is overdue (borrowed on {loan.loan_date.strftime('%Y-%m-%d')}). Please return it soon.")
     return render_template('book_list.html', books=available_books, borrowed_books=borrowed_books, search_query=search_query)
 
 @app.route('/librarian_dashboard')
@@ -125,8 +130,27 @@ def add_book():
 def overdue_report():
     if 'username' not in session or session['role'] != 'librarian':
         return redirect(url_for('login'))
-    overdue_loans = [l for l in loans if l.is_overdue()]
-    return render_template('overdue_report.html', loans=overdue_loans)
+    overdue_loans = [
+        {
+            'loan': l,
+            'days_overdue': (datetime.now() - l.loan_date).days - 14
+        } for l in loans if l.is_overdue()
+    ]
+    return render_template('overdue_report.html', loans=overdue_loans, books=books)
+
+@app.route('/send_warning/<username>/<book_id>')
+def send_warning(username, book_id):
+    if 'username' not in session or session['role'] != 'librarian':
+        return redirect(url_for('login'))
+    loan = next((l for l in loans if l.username == username and l.book_id == book_id and not l.return_date and l.is_overdue()), None)
+    if loan and not loan.warning_sent:
+        loan.warning_sent = True
+        write_loans(loans)
+        book = next(b for b in books if b.id == book_id)
+        flash(f"Warning sent to {username} for overdue book '{book.title}'")
+    else:
+        flash("Warning already sent or loan not found")
+    return redirect(url_for('overdue_report'))
 
 @app.route('/statistics')
 def statistics():

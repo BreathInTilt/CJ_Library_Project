@@ -6,8 +6,9 @@ class Loan:
         self.book_id = book_id
         self.loan_date = loan_date
         self.return_date = return_date
+        self.warning_sent = False  # Track if warning has been sent
 
     def is_overdue(self):
         if self.return_date:
             return False
-        return datetime.now() > self.loan_date + timedelta(days=14)
+        return (datetime.now() - self.loan_date).days > 14

@@ -32,13 +32,13 @@
         </div>
     </header>
     <main class="container mx-auto px-4 py-8">
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded">
-            {% for message in messages %}
+        {% for category, message in messages %}
+        <div class="{{ 'bg-red-100 border-l-4 border-red-500 text-red-700' if category == 'error' else 'bg-green-100 border-l-4 border-green-500 text-green-700' }} p-4 mb-4 rounded">
             <p>{{ message }}</p>
-            {% endfor %}
         </div>
+        {% endfor %}
         {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
