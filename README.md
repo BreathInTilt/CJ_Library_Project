@@ -25,9 +25,13 @@ A simple Flask-based library management system. Supports user authentication, bo
 git clone https://github.com/BreathInTilt/CJ_Library_Project.git
 cd CJ_Library_Project
 docker-compose up --build
-# or
-# docker compose up --build
 ````
+# or
+```bash
+git clone https://github.com/BreathInTilt/CJ_Library_Project.git
+cd CJ_Library_Project
+docker compose up --build
+```
 
 Then open: `http://127.0.0.1:5000`
 
