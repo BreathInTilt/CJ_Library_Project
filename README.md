@@ -26,7 +26,7 @@ git clone https://github.com/BreathInTilt/CJ_Library_Project.git
 cd CJ_Library_Project
 docker-compose up --build
 ````
-# or
+### Or
 ```bash
 git clone https://github.com/BreathInTilt/CJ_Library_Project.git
 cd CJ_Library_Project
@@ -54,3 +54,5 @@ CJ_Library_Project/
 ├── models/
 ├── utils/
 ```
+
+## All located data in `/data` folder
